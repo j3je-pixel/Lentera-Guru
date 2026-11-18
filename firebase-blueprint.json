@@ -1,0 +1,251 @@
+{
+  "entities": {
+    "SchoolClass": {
+      "title": "SchoolClass",
+      "description": "Data kelas, tingkat kelas, dan tahun ajaran yang dikelola guru.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "gradeLevel": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "academicYear": { "type": "string", "minLength": 4, "maxLength": 20 },
+        "homeroomTeacher": { "type": "string", "minLength": 0, "maxLength": 100 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "name", "gradeLevel", "academicYear", "createdAt", "updatedAt"]
+    },
+    "Subject": {
+      "title": "Subject",
+      "description": "Data mata pelajaran dengan kode dan nama mata pelajaran.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "code": { "type": "string", "minLength": 1, "maxLength": 24 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "code", "name", "createdAt", "updatedAt"]
+    },
+    "Student": {
+      "title": "Student",
+      "description": "Data siswa yang terkelompok ke dalam kelas tertentu.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "nis": { "type": "string", "minLength": 1, "maxLength": 30 },
+        "fullName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "gender": { "type": "string", "enum": ["L", "P"] },
+        "classId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "nis", "fullName", "gender", "classId", "createdAt", "updatedAt"]
+    },
+    "GradingCategory": {
+      "title": "GradingCategory",
+      "description": "Kategori penilaian akademik dan bobot persentase per mata pelajaran (berlaku untuk semua kelas).",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "classId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "subjectId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "weight": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "subjectId", "name", "weight", "createdAt", "updatedAt"]
+    },
+    "AcademicGrade": {
+      "title": "AcademicGrade",
+      "description": "Catatan nilai akademik siswa per tanggal, kelas, mata pelajaran, kategori, serta bab dan urutan penilaian harian.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "date": { "type": "string", "minLength": 10, "maxLength": 10, "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "classId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "subjectId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "categoryId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "studentId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "score": { "type": "number" },
+        "assessmentType": { "type": "string", "enum": ["formatif", "sumatif"] },
+        "chapter": { "type": "string", "minLength": 0, "maxLength": 60 },
+        "assessmentOrder": { "type": "number" },
+        "assessmentLabel": { "type": "string", "minLength": 0, "maxLength": 60 },
+        "notes": { "type": "string", "minLength": 0, "maxLength": 300 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "date", "classId", "subjectId", "categoryId", "studentId", "score", "createdAt", "updatedAt"]
+    },
+    "AttitudeAssessment": {
+      "title": "AttitudeAssessment",
+      "description": "Penilaian sikap dan perilaku siswa beserta catatan kejadian khusus.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "date": { "type": "string", "minLength": 10, "maxLength": 10, "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "classId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "subjectId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "studentId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "aspect": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "predicate": { "type": "string", "enum": ["Sangat Baik", "Baik", "Cukup", "Perlu Bimbingan"] },
+        "incidentType": { "type": "string", "enum": ["Netral", "Positif", "Negatif"] },
+        "notes": { "type": "string", "minLength": 0, "maxLength": 500 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "date", "classId", "subjectId", "studentId", "aspect", "predicate", "createdAt", "updatedAt"]
+    },
+    "TeachingJournal": {
+      "title": "TeachingJournal",
+      "description": "Jurnal harian kegiatan belajar mengajar guru termasuk rekap kehadiran.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "date": { "type": "string", "minLength": 10, "maxLength": 10, "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "lessonHours": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "classId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "subjectId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "topic": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "presentCount": { "type": "number" },
+        "sickCount": { "type": "number" },
+        "permissionCount": { "type": "number" },
+        "absentCount": { "type": "number" },
+        "reflection": { "type": "string", "minLength": 0, "maxLength": 1000 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "date", "lessonHours", "classId", "subjectId", "topic", "presentCount", "sickCount", "permissionCount", "absentCount", "createdAt", "updatedAt"]
+    },
+    "StudentAttendance": {
+      "title": "StudentAttendance",
+      "description": "Rekam kehadiran per siswa per sesi jurnal mengajar untuk laporan kehadiran bulanan.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "journalId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "date": { "type": "string", "minLength": 10, "maxLength": 10, "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "classId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "subjectId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "studentId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "status": { "type": "string", "enum": ["Hadir", "Sakit", "Izin", "Alfa"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "journalId", "date", "classId", "subjectId", "studentId", "status", "createdAt", "updatedAt"]
+    },
+    "LessonSlot": {
+      "title": "LessonSlot",
+      "description": "Pengaturan slot jam pelajaran sekolah (label dan rentang waktu) milik guru.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "label": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "startTime": { "type": "string", "minLength": 5, "maxLength": 5, "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$" },
+        "endTime": { "type": "string", "minLength": 5, "maxLength": 5, "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$" },
+        "order": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "label", "startTime", "endTime", "order", "createdAt", "updatedAt"]
+    },
+    "TeachingSchedule": {
+      "title": "TeachingSchedule",
+      "description": "Jadwal mengajar mingguan guru per hari dan slot jam pelajaran untuk penyesuaian otomatis.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "dayOfWeek": { "type": "number" },
+        "slotId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "classId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "subjectId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "dayOfWeek", "slotId", "classId", "subjectId", "createdAt", "updatedAt"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Profil pengguna multi-user (Administrator dan Guru) termasuk status aktif dan identitas kepegawaian.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string", "minLength": 3, "maxLength": 160 },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "role": { "type": "string", "enum": ["admin", "guru"] },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "nip": { "type": "string", "minLength": 0, "maxLength": 40 },
+        "subjectSpecialty": { "type": "string", "minLength": 0, "maxLength": 120 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "displayName", "role", "status", "createdAt", "updatedAt"]
+    },
+    "AdminRole": {
+      "title": "AdminRole",
+      "description": "Dokumen penanda hak akses Administrator untuk kontrol RBAC sisi server Firestore.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string", "minLength": 3, "maxLength": 160 },
+        "grantedBy": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "grantedBy", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/classes/{classId}": {
+      "schema": { "$ref": "#/entities/SchoolClass" },
+      "description": "Koleksi kelas yang dibuat dan dikelola oleh guru."
+    },
+    "/subjects/{subjectId}": {
+      "schema": { "$ref": "#/entities/Subject" },
+      "description": "Koleksi mata pelajaran milik guru."
+    },
+    "/students/{studentId}": {
+      "schema": { "$ref": "#/entities/Student" },
+      "description": "Koleksi siswa yang terhubung dengan kelas."
+    },
+    "/gradingCategories/{categoryId}": {
+      "schema": { "$ref": "#/entities/GradingCategory" },
+      "description": "Koleksi kategori penilaian dan bobot persentase."
+    },
+    "/academicGrades/{gradeId}": {
+      "schema": { "$ref": "#/entities/AcademicGrade" },
+      "description": "Koleksi nilai akademik siswa."
+    },
+    "/attitudeAssessments/{assessmentId}": {
+      "schema": { "$ref": "#/entities/AttitudeAssessment" },
+      "description": "Koleksi penilaian sikap dan perilaku siswa."
+    },
+    "/teachingJournals/{journalId}": {
+      "schema": { "$ref": "#/entities/TeachingJournal" },
+      "description": "Koleksi jurnal harian mengajar."
+    },
+    "/studentAttendance/{attendanceId}": {
+      "schema": { "$ref": "#/entities/StudentAttendance" },
+      "description": "Koleksi rekam kehadiran siswa per sesi jurnal."
+    },
+    "/lessonSlots/{slotId}": {
+      "schema": { "$ref": "#/entities/LessonSlot" },
+      "description": "Koleksi slot jam pelajaran dinamis milik guru."
+    },
+    "/teachingSchedules/{scheduleId}": {
+      "schema": { "$ref": "#/entities/TeachingSchedule" },
+      "description": "Koleksi jadwal mengajar mingguan guru."
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Koleksi profil akun multi-user (Administrator & Guru) beserta peran dan status aktif."
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/AdminRole" },
+      "description": "Koleksi otorisasi peran Administrator."
+    }
+  }
+}
